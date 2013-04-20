@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<!------------------------------------------------------------------------------
+| Copyright (C) 2012-2013 Leap Motion, Inc. All rights reserved.               |
+| Leap Motion proprietary and confidential. Not for distribution.              |
+| Use subject to the terms of the Leap Motion SDK Agreement available at       |
+| https://developer.leapmotion.com/sdk_agreement, or another agreement         |
+| between Leap Motion and you, your company or other organization.             |
+------------------------------------------------------------------------------->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Leap JavaScript Sample</title>
+<script src="./leap.js"></script>
+<script src="./sylvester.js"></script>
+<script>
+// Store frame for motion functions
+var previousFrame = null;
+var paused = false;
+var pauseOnGesture = false;
+
+// Setup Leap loop with frame callback function
+var controllerOptions = {enableGestures: true};
+
+var handDirection;
+var handPalmNormal;
+var handPalmPosition;
+var handPalmVelocity;
+var handSphereCenter;
+var handSphereRadius;
+var rotationAxis;
+var rotationAngle;
+var translation;
+var scaleFactor;
+
+
+
+Leap.loop(controllerOptions, function(frame) {
+  if (paused) {
+    return; // Skip this update
+  }
+  // Display Hand object data
+  var handOutput = document.getElementById("handData");
+  var handString = "";
+  if (frame.hands.length > 0) {
+    for (var i = 0; i < frame.hands.length; i++) {
+      var hand = frame.hands[i];
+
+	  handDirection = hand.direction;
+	  handPalmNormal = hand.palmNormal;
+	  handPalmPosition = hand.palmPosition;
+	  handPalmVelocity = hand.palmVelocity;
+	  handSphereCenter = hand.sphereCenter;
+	  handSphereRadius = hand.sphereRadius;
+
+      handString += "<div style='width:800px; float:left; padding:5px'>";
+      handString += "Hand ID: " + hand.id + "<br />";
+      handString += "Direction: " + vectorToString(hand.direction, 2) + "<br />";
+      handString += "Palm normal: " + vectorToString(hand.palmNormal, 2) + "<br />";
+      handString += "Palm position: " + vectorToString(hand.palmPosition) + " mm<br />";
+      handString += "Palm velocity: " + vectorToString(hand.palmVelocity) + " mm/s<br />";
+      handString += "Sphere center: " + vectorToString(hand.sphereCenter) + " mm<br />";
+      handString += "Sphere radius: " + hand.sphereRadius.toFixed(1) + " mm<br />";
+
+      // Hand motion factors
+      if (previousFrame) {
+        translation = hand.translation(previousFrame);
+        handString += "Translation: " + vectorToString(translation) + " mm<br />";
+
+        rotationAxis = hand.rotationAxis(previousFrame, 2);
+        rotationAngle = hand.rotationAngle(previousFrame);
+        handString += "Rotation axis: " + vectorToString(rotationAxis) + "<br />";
+        handString += "Rotation angle: " + rotationAngle.toFixed(2) + " radians<br />";
+
+        scaleFactor = hand.scaleFactor(previousFrame);
+        handString += "Scale factor: " + scaleFactor.toFixed(2) + "<br />";
+      }
+
+      // IDs of pointables (fingers and tools) associated with this hand
+      if (hand.pointables.length > 0) {
+        var fingerIds = [];
+        var toolIds = [];
+        for (var j = 0; j < hand.pointables.length; j++) {
+          var pointable = hand.pointables[j];
+          if (pointable.tool) {
+            toolIds.push(pointable.id);
+          }
+          else {
+            fingerIds.push(pointable.id);
+          }
+        }
+        if (fingerIds.length > 0) {
+          handString += "Fingers IDs: " + fingerIds.join(", ") + "<br />";
+        }
+        if (toolIds.length > 0) {
+          handString += "Tools IDs: " + toolIds.join(", ") + "<br />";
+        }
+      }
+
+      handString += "</div>";
+    }
+  }
+  else {
+    handString += "No hands";
+  }
+  handOutput.innerHTML = handString;
+
+  // Store frame for motion functions
+  previousFrame = frame;
+})
+
+function vectorToString(vector, digits) {
+  if (typeof digits === "undefined") {
+    digits = 1;
+  }
+  return "(" + vector[0].toFixed(digits) + ", "
+             + vector[1].toFixed(digits) + ", "
+             + vector[2].toFixed(digits) + ")";
+}
+
+function togglePause() {
+  paused = !paused;
+
+  if (paused) {
+    document.getElementById("pause").innerText = "Resume";
+  } else {
+    document.getElementById("pause").innerText = "Pause";
+  }
+}
+
+function pauseForGestures() {
+  if (document.getElementById("pauseOnGesture").checked) {
+    pauseOnGesture = true;
+  } else {
+    pauseOnGesture = false;
+  }
+}
+
+function checkLibrary() {
+  if (typeof Leap === "undefined") {
+    document.getElementById("main").innerHTML = "The Leap JavaScript client library (leap.js file) was not found. Please download the library from the GitHub project at <a href='https://github.com/leapmotion/leapjs'>https://github.com/leapmotion/leapjs</a>."
+    alert("The Leap JavaScript client library (leap.js file) was not found. Please download the latest version from the GitHub project at https://github.com/leapmotion/leapjs");
+  }
+}
+</script>
+</head>
+<body onload="checkLibrary()">
+<h1>Leap JavaScript Sample</h1>
+<div id="main">
+  <h3>Hand data:</h3>
+  <div id="handData"></div>
+  <div style="clear:both;"></div>
+</div>
+</body>
+</html>
