@@ -1,0 +1,3 @@
+[submodule "openrov-software"]
+	path = openrov-software
+	url = https://github.com/OpenROVSpaceAppsChallange/openrov-software.git
