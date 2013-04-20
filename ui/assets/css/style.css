@@ -26,183 +26,28 @@ body {
   background: rgba(0,0,0,.1);
 }
 
-#openrov {
+.container { width: 100%; padding: 0; margin: 0; }
+
+.telemetry {
 }
 
-#apps {
-	float: right; 
-	margin: 0; 
-	padding: 0; 
-	width: 17%;
-	height: 100%;
-	position: absolute;
-	right: 0;
-	background-color: #CDCAC4;
+.toolbar {
+    padding: 20px;
+    margin: 0;
+    position: fixed;
+    bottom: 0;
+    background-color: rgba(0,0,0,.5);
+    color: white;
+    width: 100%;
 }
 
-#workspace {
-	float: left; 
-	margin: 0; 
-	padding: 0; 
-	width: 83%;
-	background-color: #242423;
-	height: 100%;
-	position: absolute;
-	left: 0;
-	border-right: black;
+#depth_m {
+    display: block;
 }
 
-
-#apps header, #workspace header {
-  height:40px;
+#depth_ft {
+    display: block;
 }
-
-#apps header h3, #workspace header h3 {
-  line-height:40px;
-  padding-left:20px;
-}
-
-#apps header {
-  background: #fffdfa;
-  position:relative;
-  width:100%;
-  border-bottom:1px solid rgba(0,0,0,.2);
-}
-
-#workspace header h3 {
-  color: #FFF;
-  background:#000;
-  border-bottom:1px solid rgba(0,0,0,1);
-  background-image: linear-gradient(bottom, rgb(26,26,26) 0%, rgb(43,43,43) 50%);
-  background-image: -o-linear-gradient(bottom, rgb(26,26,26) 0%, rgb(43,43,43) 50%);
-  background-image: -moz-linear-gradient(bottom, rgb(26,26,26) 0%, rgb(43,43,43) 50%);
-  background-image: -webkit-linear-gradient(bottom, rgb(26,26,26) 0%, rgb(43,43,43) 50%);
-  background-image: -ms-linear-gradient(bottom, rgb(26,26,26) 0%, rgb(43,43,43) 50%);
-
-  background-image: -webkit-gradient(
-  	linear,
-  	left bottom,
-  	left top,
-  	color-stop(0, rgb(26,26,26)),
-  	color-stop(0.5, rgb(43,43,43))
-  );
-}
-
-#apps section {
-  border-top:1px solid rgba(255,255,255,.2);
-  padding: 5px;
-}
-
-#workspace section {
-	padding: 20px 20px 0px 20px;
-}
-
-#workspace header h3 {
-  color: #FFF;
-}
-
-#search {
-  margin:6px 20px;
-}
-
-#category {
-  border-left:1px solid #000;
-  height:40px;
-  line-height:40px;
-}
-
-.step {
-  box-shadow:0 0 2px rgba(255,255,255,.8) inset;
-  color:#fff;
-  text-shadow:0 1px 2px #000;
-  text-align:left;
-  border-radius:4px;
-  margin:20px;
-  padding:20px 20px;
-  background-image: linear-gradient(bottom, rgb(61,61,61) 0%, rgb(119,119,119) 50%);
-  background-image: -o-linear-gradient(bottom, rgb(61,61,61) 0%, rgb(119,119,119) 50%);
-  background-image: -moz-linear-gradient(bottom, rgb(61,61,61) 0%, rgb(119,119,119) 50%);
-  background-image: -webkit-linear-gradient(bottom, rgb(61,61,61) 0%, rgb(119,119,119) 50%);
-  background-image: -ms-linear-gradient(bottom, rgb(61,61,61) 0%, rgb(119,119,119) 50%);
-
-  background-image: -webkit-gradient(
-  	linear,
-  	left bottom,
-  	left top,
-  	color-stop(0, rgb(61,61,61)),
-  	color-stop(0.5, rgb(119,119,119))
-  );
-}
-
-.step.active {
-  background:#fff;
-  text-shadow:none;
-  color:#474134;
-}
-
-
-.app {
-	padding: 10px 10px;
-}
-.app-highlight
-{
-	border-color: #00BB26 !important;
-}
-
-.used img {
-	opacity: 0.3; 
-}
-
-
-.drop-here {
-	margin:20px;
-	padding:20px 10px;
-	color:#CCC;
-	font-size: 1.5em;
-	letter-spacing: 1px;
-	font-weight: bold;
-	text-shadow:0 1px 2px #000;
-	text-align:center;
-	border-radius:4px;
-	border:dashed 3px #CCC;
-}
-
-.pay-me {
-  border-top:1px solid rgba(255,255,255,.2);
-  border-bottom:1px solid rgba(255,255,255,.2);
-  padding:20px 10px;
-  color:#fff;
-  text-shadow:0 1px 2px #000;
-  font-weight:bold;
-}
-
-.pay-me p {
-  margin-left:10px;
-  font-size:16px;
-}
-
-.pay-me span {
-  font-size:12px;
-  color:#777;
-}
-
-.pay-me .btn {
-  margin:10px 10px 0 0;
-  float:right;
-}
-
-.close-x {
-  float:right;
-  position:relative;
-  top:-10px;
-  font-weight:bold;
-}
-
-.close-x:hover {
-  color:#c13a2a;
-  cursor: pointer;
-}
-
 
 .group:after {
 	content: "." !important; 
@@ -212,21 +57,3 @@ body {
     visibility: hidden !important;
     }
 
-#availableItems { padding-top: 20px; margin-left: 40px;}
-
-#availableItems .label
-{
-	padding: 8px 10px;
-	font-size: 1em;
-	margin: 0px 10px 0px 0px;
-	cursor: move;
-}
-
-#availableItems .orange
-{
-	background-color: #0099FF;
-}
-
-.available-highlight { 
-	border: 3px solid #0099FF;
-}
