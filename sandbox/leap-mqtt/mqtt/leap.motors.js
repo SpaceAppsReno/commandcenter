@@ -17,6 +17,9 @@ var handLeftRight = 0;
 var pausedFrame = null;
 var latestFrame = null;
 var last = 0;
+var updatePeriod = 100;
+var xRangeCutoff = 0.25;
+var phiRangeCutoff = Math.PI / 6;
 
 
 controller.loop(function(frame) {
@@ -46,19 +49,19 @@ controller.loop(function(frame) {
 			//var theta = Math.acos(myHand.z / r);  // unused
 			var coPhi = (Math.PI / 4) - Math.atan(myHand.y / myHand.x);
 
-			if (myHand.x < -0.25) {
+			if (myHand.x < -xRangeCutoff) {
 				event.forward = 0;
 				event.yaw = -100;
-			} else if (myHand.x > 0.25) {
+			} else if (myHand.x > xRangeCutoff) {
 				event.forward = 0;
 				event.yaw = 100;
 			} else {
 				event.forward = 100;
 				event.yaw = 0;
 
-				if (coPhi < -Math.PI / 6) {
+				if (coPhi < -phiRangeCutoff) {
 					event.pitch = -100;
-				} else if (coPhi > Math.PI / 6) {
+				} else if (coPhi > phiRangeCutoff) {
 					event.pitch = 100;
 				}
 			}
@@ -70,7 +73,7 @@ controller.loop(function(frame) {
 	var date = new Date();
 	var now = date.getTime();
 
-	if (now < last + 100) {
+	if (now < last + updatePeriod) {
 		return;
 	}
 
