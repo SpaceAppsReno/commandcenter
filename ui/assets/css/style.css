@@ -35,20 +35,50 @@ body {
     padding: 20px;
     margin: 0;
     position: fixed;
-    bottom: 0;
-    background-color: #313131;
+    top: 40px;
+    right: 0;
+    background-color: #CDCAC4;
     color: white;
-    width: 100%;
+    width: 140px;
+    height: 100%;
+}
+
+.overlay {
+    background-color: rgba(0,0,0,.4);
+    padding: 20px;
+    border-radius: 10px;
+    position: absolute;
+    top: 40%;
+    left: 40%;
+    display: none;
+}
+
+.leap img {
+    width: 150px;
 }
 
 /* Controllers */
-#controllerModal {
-    width: 460px;
-    background-color: #CDCAC4;
+ul#controllers {
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
-#controllerModal .modal-header {
-    background-color: white;
+ul#controllers li {
+    margin: 0px 0px 10px 0px;
+}
+
+ul#controllers li img {
+    cursor: pointer;
+    opacity: .4;
+}
+
+ul#controllers li img.selected {
+    opacity: 1;
+}
+
+ul#controllers li img:hover {
+    opacity: 1;
 }
 
 /* Telemetry Styling */

@@ -37,7 +37,6 @@
           <div class="nav-collapse">
             <ul class="nav">
               <li class="active"><a href="#">Command Center</a></li>
-              <li><a href="#controllerModal" data-toggle="modal">Controllers</a></li>
               <li><a href="#settings">Settings</a></li>
             </ul>
 		
@@ -48,48 +47,27 @@
 
    	<div class="container">
 
-	      <div class="workspace">
-		
-			<img src = "assets/img/ocean.jpg" style = "width: 100%; height: 100%" />
-	       
-	      </div>
-
-	      <!-- Example row of columns -->
-	      <div class="row telemetry toolbar">
-	        <div class="offset1 span2">
-	          <h2 id = "depth_m">2m</h2>
-			  <br />
-	          <h2 id = "depth_ft">7ft</h2>
-	        </div>
-	        <div class="span2">
-	          <h1>35.45&deg;</h1>
-	       </div>
-	        <div class="span2">
-	          <h2>10.2v</h2>
-			  <br />
-	        </div>
-			<div class = "span2">
-				<h2 id = "connection">62 Mbps</h2>
+		<div style = "height: 100%; position: relative">
+			<img src = "assets/img/ocean.jpg" style = "height: 100%; width: 100%" />
+			<div style = "width:250px; position: absolute; top: 0; right: 180px">
+				<img src = "assets/img/mockup.png" style = "width:100%; opacity: .7" />
 			</div>
-			<div class="span2">
-				<h2 id = "">00:32:18</h2>
-				<h2 id = "">13:08:19</h2>
-		    </div>
-	      </div>
-
-	    </div> <!-- /container -->
-	
-		<div id="controllerModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		  <div class="modal-header">
-		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-		    <h3 id="myModalLabel">OpenROV Controllers</h3>
-		  </div>
-		  <div class="modal-body">
-		 	<a href = "#"><img src = "assets/img/controllers/leap.png" /></a>
-		 	<a href = "#"><img src = "assets/img/controllers/mobile.png" /></a>
-		 	<a href = "#"><img src = "assets/img/controllers/keyboard.png" /></a>
-		  </div>
 		</div>
+	       
+		<!-- Example row of columns -->
+		<div class="row toolbar">
+			<ul id = "controllers">
+				<li><img src = "assets/img/controllers/leap.png" /></li>
+	          	<li><img src = "assets/img/controllers/mobile.png" /></li>
+			 	<li><img src = "assets/img/controllers/keyboard.png" /></li>
+			</ul>	
+		</div>
+		
+		<div class = "leap overlay">
+			<img src = "assets/img/controllers/leap_overlay.png" />
+		</div>
+	
+	</div> <!-- /container -->
 
     <!-- Le javascript
     ================================================== -->
