@@ -5,6 +5,7 @@ using System.IO;
 
 namespace MqttLib.Logger
 {
+#if false
     public enum LogFileModes : uint
     {
         // Simply append to the existing file
@@ -219,4 +220,5 @@ namespace MqttLib.Logger
             }
         }
     }
+#endif
 }

@@ -3,22 +3,21 @@ using System.Collections;
 using MqttLib;
 using System;
 using System.Collections.Generic;
+using RenoSpaceApps.OpenROV;
+using System.Linq;
 
-public class MqttController : MonoBehaviour
+public class MqttClient : MonoSingleton<MqttClient>
 {
-
-    public PropController LeftProp;
-    public PropController RightProp;
-    public PropController TopProp;
-
     public string ConnectionString;
     public string UserName;
     public string Password;
     public string ClientId;
     public string Topic;
 
-    protected IMqtt _client;
+    public List<MessageReceiver> Receivers = new List<MessageReceiver>();
 
+    protected IMqtt _client;
+    
     protected Queue<string> messageQueue = new Queue<string>();
 
     // Use this for initialization
@@ -35,26 +34,39 @@ public class MqttController : MonoBehaviour
         _client.PublishArrived += new PublishArrivedDelegate(client_PublishArrived);
 
 
-        Debug.Log("Connecting......");
-        _client.Connect();
+        Connect();
     }
-
 
     public void Update()
     {
-        while(messageQueue.Count > 0)
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            Connect();
+        }
+
+        var proccessed = 0;
+        while(messageQueue.Count > 0 || proccessed > 10)
         {
             var currentCommand = messageQueue.Dequeue();
 
-            HandlePropCommand(currentCommand);
+            HandleMessage(currentCommand);
+            proccessed++;
         }
+    }
+
+
+    #region MQTT
+
+    private void Connect()
+    {
+        Debug.Log("Connecting......");
+        _client.Connect();
     }
 
     protected void client_Connected(object sender, EventArgs e)
     {
         Debug.Log("Client connected\n");
         RegisterOurSubscriptions();
-        //PublishSomething("Hello MQTT World");
     }
 
     protected void _client_ConnectionLost(object sender, EventArgs e)
@@ -88,65 +100,16 @@ public class MqttController : MonoBehaviour
         _client.Publish(Topic, message.ToString(), QoS.BestEfforts, false);
     }
 
-    public void HandlePropCommand(string message)
+    protected void HandleMessage(string message)
     {
-        var motorCommands = message.Split(':');
+        var messageHandled = false;
+        Receivers.ForEach( receivers => messageHandled |= receivers.HandleMessage(message));
 
-        var LeftPropValue = 0;
-        var LeftPropValueValid = Int32.TryParse(motorCommands[0], out LeftPropValue);
-
-        var RightPropValue = 0;
-        var RightPropValueValid = Int32.TryParse(motorCommands[1], out RightPropValue);
-
-        var TopPropValue = 0;
-        var TopPropValueValid = Int32.TryParse(motorCommands[2], out TopPropValue);
-
-        if (LeftPropValueValid)
+        if (!messageHandled)
         {
-            if (LeftPropValue > 0)
-            {
-                LeftProp.MoveForward(Mathf.Abs(LeftPropValue));
-            }
-            else if (LeftPropValue < 0)
-            {
-                LeftProp.MoveReverse(Mathf.Abs(LeftPropValue));
-            }
-            else
-            {
-                LeftProp.Stop();
-            }
-        }
-
-        if (RightPropValueValid)
-        {
-            if (RightPropValue > 0)
-            {
-                RightProp.MoveForward(Mathf.Abs(RightPropValue));
-            }
-            else if (RightPropValue < 0)
-            {
-                RightProp.MoveReverse(Mathf.Abs(RightPropValue));
-            }
-            else
-            {
-                RightProp.Stop();
-            }
-        }
-
-        if (TopPropValueValid)
-        {
-            if (TopPropValue > 0)
-            {
-                TopProp.MoveForward(Mathf.Abs(TopPropValue));
-            }
-            else if (TopPropValue < 0)
-            {
-                TopProp.MoveReverse(Mathf.Abs(TopPropValue));
-            }
-            else
-            {
-                TopProp.Stop();
-            }
+            Debug.Log("Message: " + message + " was not handled!!!");
         }
     }
+
+    #endregion
 }

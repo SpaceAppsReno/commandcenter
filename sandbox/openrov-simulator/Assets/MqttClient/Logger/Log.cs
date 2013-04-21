@@ -10,13 +10,13 @@ namespace MqttLib.Logger
 
       public static ILog CreateLog(string name)
       {
-        if (_log == null) { _log = new FileLog(name); }
+        if (_log == null) { _log = new UnityLogger(); }
         return _log;
       }
 
       public static ILog CreateLog(string path, string name)
       {
-        if (_log == null) { _log = new FileLog(path, name); }
+          if (_log == null) { _log = new UnityLogger(); }
         return _log;
       }
 
