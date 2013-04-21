@@ -104,7 +104,7 @@
    		  gesture.mode = gesture.MODE_ROVER;
 		  if (!gesture.armed) {
 			gesture.armed = true;
-			$('#rov-go').html("Rover Driving enabled!");
+			$('#rov-go').html("Stop Rover!");
 		  } else {
 			gesture.armed = false;
 			$('#rov-go').html("Drive Rover");
@@ -114,7 +114,7 @@
    		  gesture.mode = gesture.MODE_OPENROV;
 		  if (!gesture.armed) {
 			gesture.armed = true;
-			$('#openrov-go').html("OpenROV Driving enabled!");
+			$('#openrov-go').html("Stop OpenROV!");
 		  } else {
 			gesture.armed = false;
 			gesture.allStop();		  
