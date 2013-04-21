@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>OpenROV: Command Center</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+	<script type="text/javascript" src="./leap.js"></script>
+	<script type="text/javascript" src="./socket.io/socket.io.js"></script>
+	<script type="text/javascript" src="./cc.gesture.js"></script>
+	<script>
+		gesture.checkLibrary();
+		gesture.connect(); // using default values for; host URI; control and telemetry topics
+		
+        function disconnect() {
+			gesture.disconnect();        	
+        }	
+		window.onunload=disconnect;
+    </script>
+  </head>
+
+  <body>
+
+    <!-- Le javascript
+    ================================================== -->
+    
+    <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="./assets/js/jquery.js"><\/script>')</script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+
+	<h1>Gesture Controller Driving</h1>
+
+	<button id = "rov-go" style = "madding: 15px 30px 16px; font-size: 17px; background-color: #437EC4; color: white">Enable Gesture Driving</button>
+
+	<script>
+		// interface-button handling
+		$('#rov-go').click(function(e) {
+		  if (!gesture.armed) {
+			gesture.armed = true;
+			$('#rov-go').html("Gesture Driving enabled!");
+		  } else {
+			gesture.armed = false;
+			$('#rov-go').html("Enable Gesture Driving");
+		  }
+		});
+	</script>
+
+  </body>
+</html>
+
