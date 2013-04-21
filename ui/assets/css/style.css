@@ -50,12 +50,22 @@ body {
     position: absolute;
     top: 40%;
     left: 40%;
-    display: none;
+    color: white;
+    font-weight: bold;
+    font-size: 2em;
 }
+
+.leap { display: none; }
+
+.mobile { display: none; }
+
+.keyboard { display: none; }
 
 .leap img {
     width: 150px;
 }
+
+.mobile img, .keyboard img { width: 75px; }
 
 /* Controllers */
 ul#controllers {
