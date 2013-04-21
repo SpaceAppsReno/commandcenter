@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using RenoSpaceApps.OpenROV;
+using SimpleJSON;
 
 public class RovController : MessageReceiver
 {
@@ -10,29 +11,43 @@ public class RovController : MessageReceiver
     public PropController RightProp;
     public PropController TopProp;
 
+    public Transform LeftThrustPoint;
+    public Transform RightThrustPoint;
+    public Transform TopThrustPoint;
+
+    protected int LeftPropValue = 0;
+    protected int RightPropValue = 0;
+    protected int TopPropValue = 0;
+
     public override bool HandleMessage(string message)
     {
-        var motorCommands = new List<string>();
-        motorCommands.AddRange(message.Split(':'));
+        var motorCommands = JSON.Parse(message);
 
-        var LeftPropValue = 0;
-        var LeftPropValueValid = Int32.TryParse(motorCommands[0], out LeftPropValue);
-
-        var RightPropValue = 0;
+        
+        var LeftPropValueValid = false;
         var RightPropValueValid = false;
-
-        var TopPropValue = 0;
         var TopPropValueValid = false;
 
-        if (motorCommands.Count > 2)
+        if (motorCommands["Motor1"] != null)
         {
-            Int32.TryParse(motorCommands[1], out RightPropValue);
+            LeftPropValueValid = true;
+            LeftPropValue = motorCommands["Motor1"].AsInt;
         }
 
-        if (motorCommands.Count > 3)
+        if (motorCommands["Motor2"] != null)
         {
-            Int32.TryParse(motorCommands[2], out TopPropValue);
+            RightPropValueValid = true;
+            RightPropValue = motorCommands["Motor2"].AsInt;
+            
         }
+
+        if (motorCommands["Motor3"] != null)
+        {
+            TopPropValueValid = true;
+            TopPropValue = motorCommands["Motor3"].AsInt;
+            
+        }
+
 
         if (LeftPropValueValid)
         {
@@ -83,5 +98,22 @@ public class RovController : MessageReceiver
         }
 
         return true;
-    } 
+    }
+
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            LeftPropValue = 0;
+            RightPropValue = 0;
+            TopPropValue = 0;
+        }
+    }
+
+    public void FixedUpdate()
+    {
+        rigidbody.AddForceAtPosition(transform.forward * LeftPropValue, LeftThrustPoint.position, ForceMode.Force);
+        rigidbody.AddForceAtPosition(transform.forward * RightPropValue, RightThrustPoint.position, ForceMode.Force);
+        rigidbody.AddForceAtPosition(transform.up * TopPropValue, TopThrustPoint.position, ForceMode.Force);
+    }
 }

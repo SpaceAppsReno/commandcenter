@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+	<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+	<ProductVersion>10.0.20506</ProductVersion>
+	<SchemaVersion>2.0</SchemaVersion>
+	<ProjectGuid>{2380165D-7BBC-716C-1BEA-DA81D3E6540F}</ProjectGuid>
+	<OutputType>Library</OutputType>
+	<AppDesignerFolder>Properties</AppDesignerFolder>
+	<RootNamespace></RootNamespace>
+	<AssemblyName>Assembly-CSharp</AssemblyName>
+	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+	<FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+	<DebugSymbols>true</DebugSymbols>
+	<DebugType>full</DebugType>
+	<Optimize>false</Optimize>
+	<OutputPath>Temp\bin\Debug\</OutputPath>
+	<DefineConstants>DEBUG;TRACE;UNITY_3_5_7;UNITY_3_5;UNITY_EDITOR;ENABLE_PROFILER;UNITY_STANDALONE_WIN;ENABLE_GENERICS;ENABLE_DUCK_TYPING;ENABLE_TERRAIN;ENABLE_MOVIES;ENABLE_WEBCAM;ENABLE_MICROPHONE;ENABLE_NETWORK;ENABLE_CLOTH;ENABLE_WWW;ENABLE_SUBSTANCE</DefineConstants>
+	<ErrorReport>prompt</ErrorReport>
+	<WarningLevel>4</WarningLevel>
+	<NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+	<DebugType>pdbonly</DebugType>
+	<Optimize>true</Optimize>
+	<OutputPath>Temp\bin\Release\</OutputPath>
+	<DefineConstants>TRACE</DefineConstants>
+	<ErrorReport>prompt</ErrorReport>
+	<WarningLevel>4</WarningLevel>
+	<NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+	<Reference Include="System" />
+    <Reference Include="System.XML" />
+	<Reference Include="System.Core" />
+	<Reference Include="UnityEngine">
+	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	</Reference>
+	<Reference Include="UnityEditor">
+	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	</Reference>
+  </ItemGroup>
+  <ItemGroup>
+     <Compile Include="Assets\Client.cs" />
+     <Compile Include="Assets\Console.cs" />
+     <Compile Include="Assets\MQTT\MqttTest.cs" />
+     <Compile Include="Assets\MonoSingleton.cs" />
+     <Compile Include="Assets\MqttClient.cs" />
+     <Compile Include="Assets\MqttClient\CompleteArgs.cs" />
+     <Compile Include="Assets\MqttClient\Core\MQTTStreamExceptions.cs" />
+     <Compile Include="Assets\MqttClient\Core\Messages\IPersistentMessage.cs" />
+     <Compile Include="Assets\MqttClient\Core\Messages\MessageFactory.cs" />
+     <Compile Include="Assets\MqttClient\Core\Messages\MqttAcknowledgeMessage.cs" />
+     <Compile Include="Assets\MqttClient\Core\Messages\MqttConnackMessage.cs" />
+     <Compile Include="Assets\MqttClient\Core\Messages\MqttConnectMessage.cs" />
+     <Compile Include="Assets\MqttClient\Core\Messages\MqttDisconnectMessage.cs" />
+     <Compile Include="Assets\MqttClient\Core\Messages\MqttMessage.cs" />
+     <Compile Include="Assets\MqttClient\Core\Messages\MqttMessageReceivedEventArgs.cs" />
+     <Compile Include="Assets\MqttClient\Core\Messages\MqttPingReqMessage.cs" />
+     <Compile Include="Assets\MqttClient\Core\Messages\MqttPingRespMessage.cs" />
+     <Compile Include="Assets\MqttClient\Core\Messages\MqttPubackMessage.cs" />
+     <Compile Include="Assets\MqttClient\Core\Messages\MqttPubcompMessage.cs" />
+     <Compile Include="Assets\MqttClient\Core\Messages\MqttPublishMessage.cs" />
+     <Compile Include="Assets\MqttClient\Core\Messages\MqttPubrecMessage.cs" />
+     <Compile Include="Assets\MqttClient\Core\Messages\MqttPubrelMessage.cs" />
+     <Compile Include="Assets\MqttClient\Core\Messages\MqttSubackMessage.cs" />
+     <Compile Include="Assets\MqttClient\Core\Messages\MqttSubscribeMessage.cs" />
+     <Compile Include="Assets\MqttClient\Core\Messages\MqttUnsubackMessage.cs" />
+     <Compile Include="Assets\MqttClient\Core\Messages\MqttUnsubscribeMessage.cs" />
+     <Compile Include="Assets\MqttClient\Core\NotConnectedException.cs" />
+     <Compile Include="Assets\MqttClient\Core\QoSManager.cs" />
+     <Compile Include="Assets\MqttClient\Core\StreamFactory.cs" />
+     <Compile Include="Assets\MqttClient\Core\StreamManager.cs" />
+     <Compile Include="Assets\MqttClient\Core\Subscription.cs" />
+     <Compile Include="Assets\MqttClient\IMqtt.cs" />
+     <Compile Include="Assets\MqttClient\IMqttConnectDisconnect.cs" />
+     <Compile Include="Assets\MqttClient\IMqttPublisher.cs" />
+     <Compile Include="Assets\MqttClient\IMqttShared.cs" />
+     <Compile Include="Assets\MqttClient\IMqttSharedSubscriber.cs" />
+     <Compile Include="Assets\MqttClient\IMqttSubscriber.cs" />
+     <Compile Include="Assets\MqttClient\IPersistence.cs" />
+     <Compile Include="Assets\MqttClient\Logger\FileLog.cs" />
+     <Compile Include="Assets\MqttClient\Logger\ILog.cs" />
+     <Compile Include="Assets\MqttClient\Logger\Log.cs" />
+     <Compile Include="Assets\MqttClient\Logger\UnityLogger.cs" />
+     <Compile Include="Assets\MqttClient\MatchTree\Topic.cs" />
+     <Compile Include="Assets\MqttClient\MatchTree\TopicNode.cs" />
+     <Compile Include="Assets\MqttClient\MatchTree\TopicTree.cs" />
+     <Compile Include="Assets\MqttClient\Mqtt.cs" />
+     <Compile Include="Assets\MqttClient\MqttBroker.cs" />
+     <Compile Include="Assets\MqttClient\MqttBrokerUnavailableException.cs" />
+     <Compile Include="Assets\MqttClient\MqttClientFactory.cs" />
+     <Compile Include="Assets\MqttClient\MqttDelegates.cs" />
+     <Compile Include="Assets\MqttClient\MqttException.cs" />
+     <Compile Include="Assets\MqttClient\MqttNotConnectedException.cs" />
+     <Compile Include="Assets\MqttClient\MqttParcel.cs" />
+     <Compile Include="Assets\MqttClient\MqttPayload.cs" />
+     <Compile Include="Assets\MqttClient\PublishArrivedArgs.cs" />
+     <Compile Include="Assets\MqttClient\QoS.cs" />
+     <Compile Include="Assets\OpenROV\Scripts\GUIController.cs" />
+     <Compile Include="Assets\OpenROV\Scripts\IMessageReceiver.cs" />
+     <Compile Include="Assets\OpenROV\Scripts\MessageReceiver.cs" />
+     <Compile Include="Assets\OpenROV\Scripts\PropController.cs" />
+     <Compile Include="Assets\OpenROV\Scripts\RovController.cs" />
+     <Compile Include="Assets\SimpleJSON.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{5A69E993-E2EA-0B34-FD87-28C3FE87779E}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
+    <ProjectReference Include="Assembly-UnityScript-firstpass.unityproj">
+      <Project>{005DBA0F-586D-AB29-DA2D-9076C617FCA0}</Project>      <Name>Assembly-UnityScript-firstpass</Name>    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+	   Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  
+</Project>
