@@ -36,10 +36,22 @@ body {
     margin: 0;
     position: fixed;
     bottom: 0;
-    background-color: rgba(0,0,0,.5);
+    background-color: #313131;
     color: white;
     width: 100%;
 }
+
+/* Controllers */
+#controllerModal {
+    width: 460px;
+    background-color: #CDCAC4;
+}
+
+#controllerModal .modal-header {
+    background-color: white;
+}
+
+/* Telemetry Styling */
 
 #depth_m {
     display: block;
