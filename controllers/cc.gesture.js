@@ -27,17 +27,27 @@ var gesture = ('undefined' === typeof module ? {} : module.exports);
 
 		var leftMotorArray = new Array();
 		var rightMotorArray = new Array();
+		var topMotorArray = new Array();
 		var motorArrayLength = 5;
 		var leftMotor = 0;
 		var rightMotor = 0;
+		var topMotor = 0;
 		var betaSensitivity = 0.5;
 		var gammaSensitivity = 0.3;
+		var deltaSensitivity = 0.5;
 
 
 		var defaultHost = 'api.pinocc.io';
 		var defaultControlTopic = 'erictj/3pi-control';
 		var defaultTelemetryTopic = 'erictj/3pi-telemetry';
+		
+		var controlTopic = defaultControlTopic;
+		var telemetryTopic = defaultTelemetryTopic;
 
+		var maxForwardBack = 50;
+		var maxLeftRight = 50;
+		var maxUpDown = 50;
+		
 		var host;
 		var controlTopic;
 		var telemetryTopic;
@@ -75,6 +85,11 @@ var gesture = ('undefined' === typeof module ? {} : module.exports);
          * @api public
          */
 		gesture.online = false;
+		
+		gesture.MODE_ROVER = 1;
+		gesture.MODE_OPENROV = 2;
+		
+		gesture.mode = gesture.MODE_ROVER;
          
 
         /**
@@ -108,7 +123,18 @@ var gesture = ('undefined' === typeof module ? {} : module.exports);
 			});
 		};
 		
+		gesture.allStop = function() {
+			var message = {
+			  "Motor1": 0,
+			  "Motor2": 0,
+			  "Motor3": 0
+			}	
+			GetUnity().SendMessage("JavaScriptClient", "HandleMessage", JSON.stringify(message));			
+			console.log('all stop: ' + JSON.stringify(message));
+		}
+		
 		gesture.disconnect = function() {
+			gesture.allStop();
 			socket.disconnect();
 		};
 
@@ -126,7 +152,7 @@ var gesture = ('undefined' === typeof module ? {} : module.exports);
 		};
 		
 
-		var tilt = function(forwardBack, leftRight) {
+		var tilt = function(forwardBack, leftRight, upDown) {
 		//    console.log('tilt: ' + forwardBack + ' - leftRight: ' + leftRight);
 			if (!gesture.armed) {
 				return;
@@ -134,6 +160,7 @@ var gesture = ('undefined' === typeof module ? {} : module.exports);
 			forwardBack = forwardBack * -1;
 			var forward = (forwardBack * betaSensitivity).toFixed(0);
 			var turn = (leftRight * gammaSensitivity).toFixed(0);
+			var top = (upDown * deltaSensitivity).toFixed(0);
 
 			leftMotorArray.push((+forward) + (+turn));
 			if (leftMotorArray.length >= motorArrayLength) {
@@ -142,6 +169,10 @@ var gesture = ('undefined' === typeof module ? {} : module.exports);
 			rightMotorArray.push((+forward) + (+turn * -1));
 			if (rightMotorArray.length >= motorArrayLength) {
 				rightMotorArray.shift();
+			}
+			topMotorArray.push(+top);
+			if (topMotorArray.length >= motorArrayLength) {
+				topMotorArray.shift();
 			}
 		};
 
@@ -156,20 +187,38 @@ var gesture = ('undefined' === typeof module ? {} : module.exports);
 			for (var j=0; j < rightMotorArray.length; j++) {
 				rightMotor += rightMotorArray[j];
 			}
+			for (var j=0; j < topMotorArray.length; j++) {
+				topMotor += topMotorArray[j];
+			}
 
 			leftMotor = (+leftMotor) / leftMotorArray.length;
 			rightMotor = (+rightMotor) / rightMotorArray.length;
+			topMotor = (+topMotor) / topMotorArray.length;
 
 			leftMotor = +(leftMotor.toFixed());
 			rightMotor = +(rightMotor.toFixed());
-
-			var message = { 
-				topic: controlTopic,
-				message: leftMotor + ':' + rightMotor
-			};
-			socket.emit('publish', message);
-			console.log('leftMotor: ' + leftMotor + ' - rightMotor: ' + rightMotor);
+			topMotor = +(topMotor.toFixed());
 			
+			if(gesture.mode == gesture.MODE_ROVER) {			
+				var message = { 
+					topic: controlTopic,
+					message: leftMotor + ':' + rightMotor
+				};
+				socket.emit('publish', message);
+				console.log('publish: ' + JSON.stringify(message));
+			}
+			else if(gesture.mode == gesture.MODE_OPENROV) {
+				var message = {
+				  "Motor1": leftMotor,
+				  "Motor2": rightMotor,
+				  "Motor3": topMotor
+				}	
+				GetUnity().SendMessage("JavaScriptClient", "HandleMessage", JSON.stringify(message));			
+				console.log('publish: ' + JSON.stringify(message));
+			}
+			else {
+				console.log('Publish failed: unknown mode');
+			}
 		}, 500);
 
 
@@ -201,27 +250,34 @@ var gesture = ('undefined' === typeof module ? {} : module.exports);
 			  }
 
 			  var forwardBack = handPalmPosition[0];
+			  var upDown = handPalmPosition[1];
 			  var leftRight = handPalmPosition[2];
 	  
-			  if(forwardBack > 20) {
-				forwardBack = 20;
+			  if(forwardBack > maxForwardBack) {
+				forwardBack = maxForwardBack;
 			  }
-			  else if(forwardBack < -20) {
-				forwardBack = -20;
+			  else if(forwardBack < -maxForwardBack) {
+				forwardBack = -maxForwardBack;
 			  }
-			  if(leftRight > 20) {
-				leftRight = 20;
+			  if(leftRight > maxLeftRight) {
+				lefteftRight = maxLeftRight;
 			  }
-			  else if(forwardBack < -20) {
-				leftRight = -20;
+			  else if(leftRight < -maxLeftRight) {
+				leftRight = -maxLeftRight;
+			  }
+			  if(upDown > maxUpDown) {
+				upDown = maxUpDown;
+			  }
+			  else if(upDown < -maxUpDown) {
+				upDown = -maxUpDown;
 			  }
 	  
-			  tilt(forwardBack, leftRight);
+			  tilt(forwardBack, leftRight, upDown);
 
 			}
 		  }
 		  else {
-			tilt(0, 0);
+			tilt(0, 0, 0);
 		  }
 
 		  // Store frame for motion functions
