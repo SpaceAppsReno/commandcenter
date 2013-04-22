@@ -11,6 +11,9 @@ public class RovController : MessageReceiver
     public PropController RightProp;
     public PropController TopProp;
 
+    public Transform Light1;
+    public Transform Light2;
+
     public Transform LeftThrustPoint;
     public Transform RightThrustPoint;
     public Transform TopThrustPoint;
@@ -38,16 +41,45 @@ public class RovController : MessageReceiver
         {
             RightPropValueValid = true;
             RightPropValue = motorCommands["Motor2"].AsInt;
-            
         }
 
         if (motorCommands["Motor3"] != null)
         {
             TopPropValueValid = true;
             TopPropValue = motorCommands["Motor3"].AsInt;
-            
         }
 
+
+        if(motorCommands["Camera"] != null)
+        {
+            var cameraValue = motorCommands["Camera"].AsInt;
+
+            switch (cameraValue)
+            {
+                case 1:
+                    Light1.localRotation = Quaternion.Euler(-25.0f, 0.0f, 0.0f);
+                    Light2.localRotation = Quaternion.Euler(-25.0f, 0.0f, 0.0f);
+                    break;
+                case 0:
+                    Light1.localRotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+                    Light2.localRotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+                    break;
+                case -1:
+                    Light1.localRotation = Quaternion.Euler(25.0f, 0.0f, 0.0f);
+                    Light2.localRotation = Quaternion.Euler(25.0f, 0.0f, 0.0f);
+                    break;
+            }
+        }
+
+        if(motorCommands["Brightness"] != null)
+        {
+            var brightness = motorCommands["Brightness"].AsInt;
+
+            brightness = Mathf.Clamp(brightness, 0, 8);
+
+            Light1.light.intensity = brightness;
+            Light2.light.intensity = brightness;
+        }
 
         if (LeftPropValueValid)
         {
